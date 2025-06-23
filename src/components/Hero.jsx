@@ -8,7 +8,7 @@ const Hero = () => {
         <div className="relative min-h-[600px] lg:min-h-[700px] flex items-center">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
             {/* Content */}
-            <div className="text-center lg:text-left animate-fade-in">
+            <div className="text-center lg:text-left animate-fade-in p-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
                 Step Into
                 <span className="block text-gradient">Premium Style</span>

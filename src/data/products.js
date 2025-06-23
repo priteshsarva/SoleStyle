@@ -62,12 +62,12 @@ export const categories = [
     image: "https://images.pexels.com/photos/1456706/pexels-photo-1456706.jpeg?auto=compress&cs=tinysrgb&w=600",
     count: 156
   },
-  {
-    id: 5,
-    name: "Limited",
-    image: "https://images.pexels.com/photos/1598508/pexels-photo-1598508.jpeg?auto=compress&cs=tinysrgb&w=600",
-    count: 23
-  }
+  // {
+  //   id: 5,
+  //   name: "Limited",
+  //   image: "https://images.pexels.com/photos/1598508/pexels-photo-1598508.jpeg?auto=compress&cs=tinysrgb&w=600",
+  //   count: 23
+  // }
 ];
 
 export const products = [

@@ -110,7 +110,7 @@ const Footer = () => {
             <p className="text-gray-400 text-sm mb-4">
               Get the latest releases and exclusive offers delivered to your inbox.
             </p>
-            <form className="flex space-x-2">
+            <form className="flex flex-wrap gap-2">
               <input
                 type="email"
                 placeholder="Enter your email"

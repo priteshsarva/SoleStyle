@@ -19,7 +19,7 @@ const BrandGrid = () => {
             <Link
               key={brand.id}
               to={`/products?brand=${brand.name.toLowerCase().replace(' ', '-')}`}
-              className="group relative bg-gray-50 rounded-2xl overflow-hidden card-hover p-8 text-center"
+              className="group relative bg-gray-50 rounded-2xl overflow-hidden card-hover text-center md:p-8 p-4"
             >
               {/* Brand Image */}
               <div className="aspect-square mb-4 overflow-hidden rounded-xl">
@@ -31,7 +31,7 @@ const BrandGrid = () => {
               </div>
 
               {/* Brand Info */}
-              <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">
+              <h3 className="text-xl font-bold text-gray-900 group-hover:text-gray-700 transition-colors sm:mb-0 md:mb-2">
                 {brand.name}
               </h3>
               <p className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors">
@@ -45,14 +45,14 @@ const BrandGrid = () => {
         </div>
 
         {/* View All Brands Button */}
-        <div className="text-center mt-12">
+        {/* <div className="text-center mt-12">
           <Link
             to="/brands"
             className="btn-secondary inline-flex items-center"
           >
             View All Brands
           </Link>
-        </div>
+        </div> */}
       </div>
     </section>
   );
