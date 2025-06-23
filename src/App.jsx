@@ -7,7 +7,7 @@ import ProductDetail from './pages/ProductDetail';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/SoleStyle">
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">
