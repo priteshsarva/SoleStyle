@@ -54,7 +54,18 @@ const Products = ({ products }) => {
         urls += `q=${encodeURIComponent(brandName)}&`;
       }
     }
+    // Search query
+    if (searchQuery) {
 
+      console.log(urls);
+
+      let cleanedUrl = urls.replace(/q=[^&]*&?/g, '');
+
+      // Clean up any trailing '&' or '?' if left behind
+      urls = cleanedUrl.replace(/[&]+$/, '');
+
+      urls += `q=${encodeURIComponent(searchQuery)}&`;
+    }
     // Category filter
     if (selectedCategory) {
       console.log(encodeURIComponent(selectedCategory));
@@ -75,10 +86,7 @@ const Products = ({ products }) => {
       urls += `size=${encodeURIComponent(selectedSize)}&`;
     }
 
-    // Search query
-    if (searchQuery) {
-      urls += `q=${encodeURIComponent(searchQuery)}&`;
-    }
+
 
     seturl(`${urls}&result=20&page=?`)
     // Add pagination
@@ -223,7 +231,7 @@ const Products = ({ products }) => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <div className={`lg:w-64 ${isFilterOpen ? 'block' : 'hidden lg:block'}`}>
-            <div className="bg-white rounded-lg p-6 sticky top-8">
+            <div className="bg-white rounded-lg p-6 sticky" style={{ top: "9rem" }}>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
                 {activeFiltersCount > 0 && (

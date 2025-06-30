@@ -11,7 +11,7 @@ const Hero = () => {
             <div className="text-center lg:text-left animate-fade-in p-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
                 Step Into
-                <span className="block text-gradient">Premium Style</span>
+                <span className="block">Premium Style</span>
               </h1>
               
               <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-lg mx-auto lg:mx-0">

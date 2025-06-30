@@ -32,7 +32,7 @@ function App() {
       {products == "" ?
         <Loader />
         :
-        <Router basename="/SoleStyle">
+        <Router basename="/SoleStyle/">
           <div className="min-h-screen flex flex-col">
             {/* header search pending */}
             <Header />
