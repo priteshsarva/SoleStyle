@@ -17,8 +17,8 @@ const CategoryGrid = () => {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 gap-6">
           {categories.map((category) => (
             <Link
-              key={category.id}
-              to={`/products?category=${category.name.toLowerCase()}`}
+              key={category.name}
+              to={`/products?category=${category.url}`}
               className="group relative aspect-[4/5] rounded-2xl overflow-hidden card-hover"
             >
               {/* Category Image */}
@@ -36,9 +36,9 @@ const CategoryGrid = () => {
                 <h3 className="text-xl font-bold mb-1 group-hover:text-gray-200 transition-colors">
                   {category.name}
                 </h3>
-                <p className="text-sm text-gray-200">
+                {/* <p className="text-sm text-gray-200">
                   {category.count} products
-                </p>
+                </p> */}
               </div>
 
               {/* Hover Effect */}

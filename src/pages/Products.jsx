@@ -1,85 +1,162 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { products, brands, categories } from '../data/products';
+import { filterbrands, categories } from '../data/products';
 import { Filter, X, Search } from 'lucide-react';
+import Loader from '../components/Loader';
 
-const Products = () => {
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
+
+const Products = ({ products }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  
+  const [totalCount, settotalCount] = useState(0)
+  const [noproductFound, setnoproductFound] = useState(false)
+
+  const [totalPage, settotalPage] = useState()
+  const [curentPage, setcurentPage] = useState()
+  const [url, seturl] = useState('')
+
   // Filter states
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [selectedBrand, setSelectedBrand] = useState(searchParams.get('brand') || '');
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
   const [selectedSize, setSelectedSize] = useState(searchParams.get('size') || '');
-  const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [sortBy, setSortBy] = useState('name');
 
+
   // Available sizes
-  const availableSizes = [...new Set(products.flatMap(product => product.sizes))].sort((a, b) => a - b);
+  // const availableSizes = [...new Set(products.flatMap(product => product.sizes))].sort((a, b) => a - b);
+  const availableSizes = [
+    "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46",
+    "47",
+  ];
 
   // Apply filters
   useEffect(() => {
-    let filtered = [...products];
-
-    // Search filter
-    if (searchQuery) {
-      filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
+    let urls = `${baseUrl}/product/search?`;
+    setFilteredProducts("")
 
     // Brand filter
     if (selectedBrand) {
-      filtered = filtered.filter(product =>
-        product.brand.toLowerCase() === selectedBrand.toLowerCase().replace('-', ' ')
-      );
+      const brandName = selectedBrand.toLowerCase().replace('-', ' ');
+      if (brandName === "crocs slide") {
+        urls += `q=${encodeURIComponent("croc")}&`;
+      } else if (brandName === "airforce") {
+        urls += `q=${encodeURIComponent("force")}&`;
+      } else if (brandName === "louis vuitton") {
+        urls += `q=${encodeURIComponent("Vuitton")}&`;
+      } else if (brandName === "converse") {
+        urls += `q=${encodeURIComponent("conver")}&`;
+      } else {
+        urls += `q=${encodeURIComponent(brandName)}&`;
+      }
     }
 
     // Category filter
     if (selectedCategory) {
-      filtered = filtered.filter(product =>
-        product.category.toLowerCase() === selectedCategory.toLowerCase()
-      );
+      console.log(encodeURIComponent(selectedCategory));
+
+      if (encodeURIComponent(selectedCategory) === "men's%20shoe") {
+        urls += `category=Mens Shoes&`;
+      } else if (encodeURIComponent(selectedCategory) === "women's%20shoe") {
+        urls += `category=Women shoes&`;
+      } else if (encodeURIComponent(selectedCategory) === "flip-flop") {
+        urls += `category=flip-flop&`;
+      } else if (encodeURIComponent(selectedCategory) === "ua%20quality") {
+        urls += `category=UA Quality&`;
+      }
     }
 
     // Size filter
     if (selectedSize) {
-      filtered = filtered.filter(product =>
-        product.sizes.includes(parseFloat(selectedSize))
-      );
+      urls += `size=${encodeURIComponent(selectedSize)}&`;
     }
 
-    // Price range filter
-    if (priceRange.min) {
-      filtered = filtered.filter(product => product.price >= parseFloat(priceRange.min));
-    }
-    if (priceRange.max) {
-      filtered = filtered.filter(product => product.price <= parseFloat(priceRange.max));
+    // Search query
+    if (searchQuery) {
+      urls += `q=${encodeURIComponent(searchQuery)}&`;
     }
 
-    // Sort
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'price-low':
-          return a.price - b.price;
-        case 'price-high':
-          return b.price - a.price;
-        case 'name':
-          return a.name.localeCompare(b.name);
-        case 'brand':
-          return a.brand.localeCompare(b.brand);
-        default:
-          return 0;
+    seturl(`${urls}&result=20&page=?`)
+    // Add pagination
+    console.log(urls);
+
+    urls += `result=20&page=1`;
+
+    console.log("Constructed URL:", urls);
+
+    fetch(urls, {
+      method: 'GET',
+    }).then(response => response.json()).then(data => {
+      if (data.results && data.results.length > 0) {
+        setFilteredProducts(data.results);
+        settotalPage(data.totalPages);
+        setcurentPage(1);
+        settotalCount(data.totalCount)
+
+      } else {
+        setFilteredProducts("no product");
+        settotalCount(0)
+
       }
-    });
+    }).catch(error => console.error('Error:', error));
 
-    setFilteredProducts(filtered);
-  }, [searchQuery, selectedBrand, selectedCategory, selectedSize, priceRange, sortBy]);
+  }, [searchQuery, selectedBrand, selectedCategory, selectedSize, sortBy]);
+
+  // Handle sort change
+  useEffect(() => {
+    if (url) {
+      const sortParam = sortBy === 'price-low' ? 'price_asc' :
+        sortBy === 'price-high' ? 'price_desc' :
+          sortBy === 'brand' ? 'brand_asc' : 'name_asc';
+
+      const newUrl = url.replace(/&sort=[^&]*/, '') + `&sort=${sortParam}`;
+      seturl(newUrl);
+
+      fetch(newUrl, {
+        method: 'GET',
+      }).then(response => response.json()).then(data => {
+        if (data.results && data.results.length > 0) {
+          setFilteredProducts(data.results);
+        }
+      }).catch(error => console.error('Error:', error));
+    }
+  }, [sortBy, url]);
+
+
+
+  const handleloadmore = () => {
+    const nextPage = curentPage + 1;
+    console.log(totalPage);
+    console.log(curentPage);
+    console.log(url);
+
+
+    // Update the page number in the existing URL
+    const updatedUrl = url.replace("page=?", `page=${nextPage}`);
+    console.log("Loading from URL:", updatedUrl);
+
+    fetch(updatedUrl, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.results && data.results.length > 0) {
+          setFilteredProducts([...(filteredProducts || []), ...data.results]);
+          settotalPage(data.totalPages);
+          setcurentPage(nextPage);
+          setnoproductFound(false);
+
+        } else {
+          setnoproductFound(true);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  };
+
 
   // Update URL parameters
   useEffect(() => {
@@ -88,7 +165,7 @@ const Products = () => {
     if (selectedBrand) params.set('brand', selectedBrand);
     if (selectedCategory) params.set('category', selectedCategory);
     if (selectedSize) params.set('size', selectedSize);
-    
+
     setSearchParams(params);
   }, [searchQuery, selectedBrand, selectedCategory, selectedSize, setSearchParams]);
 
@@ -97,12 +174,12 @@ const Products = () => {
     setSelectedBrand('');
     setSelectedCategory('');
     setSelectedSize('');
-    setPriceRange({ min: '', max: '' });
     setSortBy('name');
     setSearchParams({});
+
   };
 
-  const activeFiltersCount = [searchQuery, selectedBrand, selectedCategory, selectedSize, priceRange.min, priceRange.max].filter(Boolean).length;
+  const activeFiltersCount = [searchQuery, selectedBrand, selectedCategory, selectedSize].filter(Boolean).length;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -114,9 +191,11 @@ const Products = () => {
           </h1>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <p className="text-gray-600">
-              Showing {filteredProducts.length} of {products.length} products
+              {/* Showing {filteredProducts.length} products */}
+              Showing {totalCount} products
+
             </p>
-            
+
             {/* Mobile Filter Toggle & Sort */}
             <div className="flex items-center space-x-4">
               <button
@@ -126,8 +205,8 @@ const Products = () => {
                 <Filter size={18} className="mr-2" />
                 Filters {activeFiltersCount > 0 && `(${activeFiltersCount})`}
               </button>
-              
-              <select
+
+              {/* <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
@@ -136,7 +215,7 @@ const Products = () => {
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
                 <option value="brand">Sort by Brand</option>
-              </select>
+              </select> */}
             </div>
           </div>
         </div>
@@ -176,7 +255,7 @@ const Products = () => {
               </div>
 
               {/* Brand Filter */}
-              <div className="mb-6">
+              {/* <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Brand
                 </label>
@@ -186,13 +265,13 @@ const Products = () => {
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 >
                   <option value="">All Brands</option>
-                  {brands.map((brand) => (
-                    <option key={brand.id} value={brand.name.toLowerCase().replace(' ', '-')}>
-                      {brand.name}
+                  {filterbrands.map((brand) => (
+                    <option value={brand.toLowerCase().replace(' ', '-')}>
+                      {brand}
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
 
               {/* Category Filter */}
               <div className="mb-6">
@@ -233,7 +312,7 @@ const Products = () => {
               </div>
 
               {/* Price Range */}
-              <div className="mb-6">
+              {/* <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Price Range
                 </label>
@@ -253,30 +332,45 @@ const Products = () => {
                     className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
+
           {/* Products Grid */}
+          {console.log(filteredProducts)}
           <div className="flex-1">
-            {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+            {filteredProducts == "" ? <Loader /> :
+              (filteredProducts !== "no product" ?
+                (filteredProducts.length > 0 ? <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredProducts.map((product) => (
+                      <ProductCard key={product.id} product={product} />
+                    ))}
+
+                  </div>
+                  {noproductFound == false ?
+                    <div className="flex justify-center mt-8">
+                      <Link onClick={handleloadmore} className="btn-secondary inline-flex items-center justify-center">
+                        Load More
+                      </Link>
+                    </div>
+                    : ""
+                  }
+
+                </> : "") :
+                (
+                  <div className="text-center py-12">
+                    <div className="text-gray-400 text-6xl mb-4">👟</div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
+                    <p className="text-gray-600 mb-4">
+                      Try adjusting your filters or search terms to find what you're looking for.
+                    </p>
+                    <button onClick={clearFilters} className="btn-secondary">
+                      Clear Filters
+                    </button>
+                  </div>
                 ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <div className="text-gray-400 text-6xl mb-4">👟</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
-                <p className="text-gray-600 mb-4">
-                  Try adjusting your filters or search terms to find what you're looking for.
-                </p>
-                <button onClick={clearFilters} className="btn-secondary">
-                  Clear Filters
-                </button>
-              </div>
-            )}
           </div>
         </div>
       </div>

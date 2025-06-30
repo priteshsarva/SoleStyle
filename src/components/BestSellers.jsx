@@ -21,7 +21,7 @@ const CustomNextArrow = ({ onClick }) => (
   </button>
 );
 
-const BestSellers = () => {
+const BestSellers = ({ productss }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -60,6 +60,8 @@ const BestSellers = () => {
     ]
   };
 
+  
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,8 +76,10 @@ const BestSellers = () => {
 
         <div className="relative pb-12">
           <Slider {...settings}>
-            {bestSellers.map((product) => (
-              <div key={product.id} className="px-3">
+            {productss.products.map((product) => (
+          
+
+              <div key={product.productId} className="px-3">
                 <ProductCard product={product} />
               </div>
             ))}

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
-import { products } from '../data/products';
 import { ArrowRight } from 'lucide-react';
 
-const ProductPreview = () => {
-  const featuredProducts = products.slice(0, 6);
+const ProductPreview = ({productss}) => {
+  const featuredProducts = productss.products.slice(0, 6);
+  // console.log(featuredProducts);
 
   return (
     <section className="py-16 bg-white">
