@@ -76,9 +76,7 @@ const BestSellers = ({ productss }) => {
 
         <div className="relative pb-12">
           <Slider {...settings}>
-            {productss.products.map((product) => (
-          
-
+            {productss.products.map((product) => (   
               <div key={product.productId} className="px-3">
                 <ProductCard product={product} />
               </div>
