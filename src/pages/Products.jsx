@@ -4,6 +4,7 @@ import ProductCard from '../components/ProductCard';
 import { filterbrands, categories } from '../data/products';
 import { Filter, X, Search } from 'lucide-react';
 import Loader from '../components/Loader';
+import { useLocation } from 'react-router-dom';
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -25,6 +26,9 @@ const Products = ({ products }) => {
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
   const [selectedSize, setSelectedSize] = useState(searchParams.get('size') || '');
   const [sortBy, setSortBy] = useState('name');
+  const { pathname } = useLocation();
+
+
 
 
   // Available sizes
@@ -33,6 +37,18 @@ const Products = ({ products }) => {
     "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46",
     "47",
   ];
+
+
+
+  useEffect(() => {
+    setSearchQuery(searchParams.get('search') || '')
+    setSelectedBrand(searchParams.get('brand') || '')
+    setSelectedCategory(searchParams.get('category') || '')
+    setSelectedSize(searchParams.get('size') || '')
+    console.log("fedfsd");
+
+  }, [pathname, searchParams]);  // Added searchParams to dependency array
+
 
   // Apply filters
   useEffect(() => {
@@ -78,7 +94,10 @@ const Products = ({ products }) => {
         urls += `category=flip-flop&`;
       } else if (encodeURIComponent(selectedCategory) === "ua%20quality") {
         urls += `category=UA Quality&`;
+      } else {
+        urls += `category=${encodeURIComponent(selectedCategory)}&`;
       }
+
     }
 
     // Size filter
@@ -112,7 +131,7 @@ const Products = ({ products }) => {
       }
     }).catch(error => console.error('Error:', error));
 
-  }, [searchQuery, selectedBrand, selectedCategory, selectedSize, sortBy]);
+  }, [searchQuery, selectedBrand, selectedCategory, selectedSize, sortBy, pathname]);
 
   // Handle sort change
   useEffect(() => {
@@ -121,7 +140,7 @@ const Products = ({ products }) => {
         sortBy === 'price-high' ? 'price_desc' :
           sortBy === 'brand' ? 'brand_asc' : 'name_asc';
 
-      const newUrl = url.replace(/&sort=[^&]*/, '') + `&sort=${sortParam}`;
+      const newUrl = url.replace(/&sort=[^&]*/g, '') + `&sort=${sortParam}`;
       seturl(newUrl);
 
       fetch(newUrl, {
@@ -168,13 +187,13 @@ const Products = ({ products }) => {
 
   // Update URL parameters
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (searchQuery) params.set('search', searchQuery);
-    if (selectedBrand) params.set('brand', selectedBrand);
-    if (selectedCategory) params.set('category', selectedCategory);
-    if (selectedSize) params.set('size', selectedSize);
+    // const params = new URLSearchParams();
+    // if (searchQuery) params.set('search', searchQuery);
+    // if (selectedBrand) params.set('brand', selectedBrand);
+    // if (selectedCategory) params.set('category', selectedCategory);
+    // if (selectedSize) params.set('size', selectedSize);
 
-    setSearchParams(params);
+    // setSearchParams(params);
   }, [searchQuery, selectedBrand, selectedCategory, selectedSize, setSearchParams]);
 
   const clearFilters = () => {
@@ -187,6 +206,15 @@ const Products = ({ products }) => {
 
   };
 
+  useEffect(() => {
+    setSearchQuery(searchParams.get('search') || '')
+    setSelectedBrand(searchParams.get('brand') || '')
+    setSelectedCategory(searchParams.get('category') || '')
+    setSelectedSize(searchParams.get('size') || '')
+    console.log("fedfsd");
+
+  }, [pathname, searchParams]);  // Added searchParams to dependency array
+
   const activeFiltersCount = [searchQuery, selectedBrand, selectedCategory, selectedSize].filter(Boolean).length;
 
   return (
@@ -194,9 +222,7 @@ const Products = ({ products }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            All Products
-          </h1>
+          
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <p className="text-gray-600">
               {/* Showing {filteredProducts.length} products */}
@@ -346,7 +372,7 @@ const Products = ({ products }) => {
 
 
           {/* Products Grid */}
-          {console.log(filteredProducts)}
+
           <div className="flex-1">
             {filteredProducts == "" ? <Loader /> :
               (filteredProducts !== "no product" ?

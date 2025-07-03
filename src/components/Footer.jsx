@@ -6,7 +6,7 @@ const Footer = () => {
     {
       title: 'Shop',
       links: [
-        { label: 'Men', href: '/products?category=men' },
+        { label: 'Men', href: '/products?category=Men+shoes' },
         { label: 'Women', href: '/products?category=women' },
         { label: 'Running', href: '/products?category=running' },
         { label: 'Lifestyle', href: '/products?category=lifestyle' },
@@ -65,7 +65,7 @@ const Footer = () => {
             <p className="text-gray-400 mb-6 text-sm leading-relaxed">
               Your destination for premium sneakers and footwear. Discover the latest styles from top brands.
             </p>
-            
+
             {/* Contact Info */}
             <div className="space-y-3 text-sm">
               <div className="flex items-center space-x-3 text-gray-400">
@@ -92,8 +92,7 @@ const Footer = () => {
                   <li key={link.label}>
                     <Link
                       to={link.href}
-                      className="text-gray-400 text-sm hover:text-white transition-colors duration-200"
-                    >
+                      className="text-gray-400 text-sm hover:text-white transition-colors duration-200">
                       {link.label}
                     </Link>
                   </li>
@@ -131,7 +130,7 @@ const Footer = () => {
           <div className="text-gray-400 text-sm mb-4 md:mb-0">
             © 2024 SoleStyle. All rights reserved.
           </div>
-          
+
           {/* Social Links */}
           <div className="flex space-x-4">
             {socialLinks.map((social) => (

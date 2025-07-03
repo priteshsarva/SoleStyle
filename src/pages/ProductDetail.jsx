@@ -176,7 +176,7 @@ const ProductDetail = () => {
             <span>/</span>
             <Link to="/products" className="hover:text-gray-700">Products</Link>
             <span>/</span>
-            <span className="text-gray-900">{product.name}</span>
+            <span className="text-gray-900">{product.productName}</span>
           </div>
         </nav>
 
