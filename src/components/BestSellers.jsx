@@ -22,6 +22,13 @@ const CustomNextArrow = ({ onClick }) => (
 );
 
 const BestSellers = ({ productss }) => {
+  // Function to get 10 random products
+  const getRandomProducts = () => {
+    const shuffled = [...productss.products].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 10);
+  };
+
+  const randomProducts = getRandomProducts();
   const settings = {
     dots: true,
     infinite: true,
@@ -76,7 +83,7 @@ const BestSellers = ({ productss }) => {
 
         <div className="relative pb-12">
           <Slider {...settings}>
-            {productss.products.map((product) => (   
+            {randomProducts.map((product) => (   
               <div key={product.productId} className="px-3">
                 <ProductCard product={product} />
               </div>

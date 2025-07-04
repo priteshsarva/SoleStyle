@@ -29,8 +29,11 @@ const Header = () => {
   const navLinks = [
     { to: '/', label: 'Home' },
     { to: '/products', label: 'Shop' },
-    { to: '/brands', label: 'Brands' },
-    { to: '/categories', label: 'Categories' },
+    { to: '/products?brand=nike', label: 'Nike' },
+    { to: '/products?brand=adidas', label: 'Adidas' },
+    { to: '/products?brand=jordan', label: 'Jordan' },
+    { to: '/products?brand=puma', label: 'Puma' },
+    { to: '/products?brand=new-balance', label: 'New Balance' },
     { to: '/contact', label: 'Contact' }
   ];
 

@@ -26,23 +26,23 @@ const Footer = () => {
     {
       title: 'Support',
       links: [
-        { label: 'Size Guide', href: '/size-guide' },
-        { label: 'Shipping Info', href: '/shipping' },
-        { label: 'Returns', href: '/returns' },
+        // { label: 'Size Guide', href: '/size-guide' },
+        // { label: 'Shipping Info', href: '/shipping' },
+        // { label: 'Returns', href: '/returns' },
         { label: 'Customer Service', href: '/contact' },
-        { label: 'FAQ', href: '/faq' }
+        // { label: 'FAQ', href: '/faq' }
       ]
     },
-    {
-      title: 'Company',
-      links: [
-        { label: 'About Us', href: '/about' },
-        { label: 'Careers', href: '/careers' },
-        { label: 'Press', href: '/press' },
-        { label: 'Privacy Policy', href: '/privacy' },
-        { label: 'Terms of Service', href: '/terms' }
-      ]
-    }
+    // {
+    //   title: 'Company',
+    //   links: [
+    //     { label: 'About Us', href: '/about' },
+    //     { label: 'Careers', href: '/careers' },
+    //     { label: 'Press', href: '/press' },
+    //     { label: 'Privacy Policy', href: '/privacy' },
+    //     { label: 'Terms of Service', href: '/terms' }
+    //   ]
+    // }
   ];
 
   const socialLinks = [
@@ -56,7 +56,7 @@ const Footer = () => {
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <Link to="/" className="text-2xl font-bold text-white mb-4 block">
