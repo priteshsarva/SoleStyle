@@ -74,7 +74,7 @@ const ProductDetail = () => {
         setSelectedImage(Array.isArray(data.results[0].image) ? data.results.image[0] : data.results[0].featuredimg);
         setimageUrlArray(JSON.parse(data.results[0].imageUrl));
         setsizes(JSON.parse(data.results[0].sizeName));
-        console.log("data", data.results[0]);
+        // console.log("data", data.results[0]);
       })
       .catch(error => console.error('Error:', error));
 
@@ -91,7 +91,7 @@ const ProductDetail = () => {
         .then(response => response.json())
         .then(data => {
           setsimillarproducts(data.results);
-          console.log(data.results);
+          // console.log(data.results);
         })
         .catch(error => console.error('Error in Similar:', error));
     }

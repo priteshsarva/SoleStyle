@@ -65,7 +65,7 @@ const ProductCard = ({ product, className = '' }) => {
         <div className="p-4">
           <div className="flex items-start justify-between mb-1 md:mb-2">
             <div className="flex-1">
-              <p className="text-sm text-gray-500 mb-0 md:mb-1">{product.productBrand}</p>
+              {/* <p className="text-sm text-gray-500 mb-0 md:mb-1">{product.productBrand}</p> */}
               <h3 className="font-semibold text-gray-900 group-hover:text-gray-700 transition-colors">
                 <Link to={`/product/${product.productId}`} className="block">
                   {product.productName}

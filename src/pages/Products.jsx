@@ -45,7 +45,7 @@ const Products = ({ products }) => {
     setSelectedBrand(searchParams.get('brand') || '')
     setSelectedCategory(searchParams.get('category') || '')
     setSelectedSize(searchParams.get('size') || '')
-    console.log("fedfsd");
+    // console.log("fedfsd");
 
   }, [pathname, searchParams]);  // Added searchParams to dependency array
 
@@ -73,7 +73,7 @@ const Products = ({ products }) => {
     // Search query
     if (searchQuery) {
 
-      console.log(urls);
+      // console.log(urls);
 
       let cleanedUrl = urls.replace(/q=[^&]*&?/g, '');
 
@@ -84,7 +84,7 @@ const Products = ({ products }) => {
     }
     // Category filter
     if (selectedCategory) {
-      console.log(encodeURIComponent(selectedCategory));
+      // console.log(encodeURIComponent(selectedCategory));
 
       if (encodeURIComponent(selectedCategory) === "men's%20shoe") {
         urls += `category=Mens Shoes&`;
@@ -109,11 +109,11 @@ const Products = ({ products }) => {
 
     seturl(`${urls}&result=20&page=?`)
     // Add pagination
-    console.log(urls);
+    // console.log(urls);
 
     urls += `result=20&page=1`;
 
-    console.log("Constructed URL:", urls);
+    // console.log("Constructed URL:", urls);
 
     fetch(urls, {
       method: 'GET',
@@ -157,14 +157,14 @@ const Products = ({ products }) => {
 
   const handleloadmore = () => {
     const nextPage = curentPage + 1;
-    console.log(totalPage);
-    console.log(curentPage);
-    console.log(url);
+    // console.log(totalPage);
+    // console.log(curentPage);
+    // console.log(url);
 
 
     // Update the page number in the existing URL
     const updatedUrl = url.replace("page=?", `page=${nextPage}`);
-    console.log("Loading from URL:", updatedUrl);
+    // console.log("Loading from URL:", updatedUrl);
 
     fetch(updatedUrl, {
       method: 'GET',
@@ -211,7 +211,7 @@ const Products = ({ products }) => {
     setSelectedBrand(searchParams.get('brand') || '')
     setSelectedCategory(searchParams.get('category') || '')
     setSelectedSize(searchParams.get('size') || '')
-    console.log("fedfsd");
+    // console.log("fedfsd");
 
   }, [pathname, searchParams]);  // Added searchParams to dependency array
 
