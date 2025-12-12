@@ -22,6 +22,8 @@ function App() {
     if (products == '') {
       fetch(`${baseUrl}/product/firstdata`, {
         method: 'GET',
+        headers: { "x-api-key": import.meta.env.VITE_PRIVATE_API_KEY },
+
       })
         .then(response => response.json())
         .then(data => {
