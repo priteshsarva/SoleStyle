@@ -39,7 +39,7 @@ function App() {
       {products == "" ?
         <Loader />
         :
-        <Router basename="/SoleStyle/">
+        <Router >
           <ScrollToTop />
           <div className="min-h-screen flex flex-col">
             {/* header search pending */}
